@@ -1,5 +1,4 @@
 import 'package:blog_minimal/screens/create_post.dart';
-import 'package:blog_minimal/screens/post_details_page.dart';
 import 'package:blog_minimal/widgets/bottom_bar_widget.dart';
 import 'package:blog_minimal/widgets/post_cell_widget.dart';
 import 'package:flutter/material.dart';
@@ -98,10 +97,7 @@ class HomePage extends StatelessWidget {
         child: Icon(Icons.book),
         backgroundColor: Color(0xFFFFD810),
         elevation: 0,
-        onPressed: () {
-          Navigator.push(
-              context, MaterialPageRoute(builder: (context) => CreatePost()));
-        },
+        onPressed: () => null,
       ),
       body: SafeArea(
         minimum: const EdgeInsets.all(16),
@@ -128,7 +124,7 @@ class HomePage extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    'Your daily read',
+                    'Your feed',
                     style: TextStyle(
                       color: Colors.black,
                       fontWeight: FontWeight.bold,
@@ -139,88 +135,26 @@ class HomePage extends StatelessWidget {
                   const SizedBox(
                     height: 20,
                   ),
-                  ListView.separated(
-                    physics: NeverScrollableScrollPhysics(),
-                    shrinkWrap: true,
-                    itemCount: data.length,
-                    itemBuilder: (context, index) {
-                      final post = data[index];
-                      return PostCellWidget(
-                          title: post.title,
-                          image: post.image,
-                          author: post.author,
-                          date: post.date,
-                          onClick: () {
-                            Navigator.of(context).push(
-                              MaterialPageRoute(
-                                builder: (_) => PostDetailsPage(
-                                  title: post.title,
-                                  image: post.image,
-                                  author: post.author,
-                                  date: post.date,
-                                ),
-                              ),
-                            );
-                          });
-                    },
-                    separatorBuilder: (context, index) => Divider(),
-                  ),
-                  const SizedBox(
-                    height: 20,
-                  ),
-                  Text(
-                    'Popular Feeds',
-                    style: TextStyle(
-                      color: Colors.black,
-                      fontWeight: FontWeight.bold,
-                      fontSize: 16,
-                    ),
-                    textAlign: TextAlign.left,
-                  ),
-                  const SizedBox(
-                    height: 20,
-                  ),
                   Container(
-                    height: 80,
-                    child: ListView(
-                      scrollDirection: Axis.horizontal,
-                      children: [
-                        Container(
-                          width: 130,
-                          padding: const EdgeInsets.symmetric(horizontal: 4),
-                          child: ClipRRect(
-                            borderRadius: BorderRadius.circular(8),
-                            child: Image.asset(
-                              'assets/images/writing_1.jpg',
-                              fit: BoxFit.cover,
-                            ),
-                          ),
-                        ),
-                        Container(
-                          width: 130,
-                          padding: const EdgeInsets.symmetric(horizontal: 4),
-                          child: ClipRRect(
-                            borderRadius: BorderRadius.circular(8),
-                            child: Image.asset(
-                              'assets/images/writing_2.jpg',
-                              fit: BoxFit.cover,
-                            ),
-                          ),
-                        ),
-                        Container(
-                          width: 130,
-                          padding: const EdgeInsets.symmetric(horizontal: 4),
-                          child: ClipRRect(
-                            borderRadius: BorderRadius.circular(8),
-                            child: Image.asset(
-                              'assets/images/writing_3.jpg',
-                              fit: BoxFit.cover,
-                            ),
-                          ),
-                        ),
-                      ],
+                    child: ListView.separated(
+                      physics: NeverScrollableScrollPhysics(),
+                      itemCount: data.length,
+                      shrinkWrap: true,
+                      itemBuilder: (context, index) {
+                        final post = data[index];
+                        return PostCellWidget(
+                            title: post.title,
+                            image: post.image,
+                            author: post.author,
+                            date: post.date,
+                            onClick: () => null);
+                      },
+                      separatorBuilder: (context, index) => Divider(),
                     ),
-                  )
+                  ),
+                  const SizedBox(
+                    height: 20,
+                  ),
                 ],
               ),
             ],
