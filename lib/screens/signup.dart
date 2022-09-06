@@ -50,8 +50,11 @@ class SignUp extends StatelessWidget {
                     width: width * 0.5,
                     height: height * 0.06,
                     child: ElevatedButton(
-                        style: ButtonStyle(backgroundColor: MaterialStateProperty.all(Color(0xff11586b))),
-                        onPressed: () => null,
+                        style: ButtonStyle(
+                            backgroundColor:
+                                MaterialStateProperty.all(Color(0xff11586b))),
+                        onPressed: () => Navigator.push(context,
+                            MaterialPageRoute(builder: (context) => SignIn())),
                         child: Text("Sign-Up"))),
               )
             ],

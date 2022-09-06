@@ -1,5 +1,4 @@
 import 'package:blog_minimal/screens/create_post.dart';
-import 'package:blog_minimal/widgets/bottom_bar_widget.dart';
 import 'package:blog_minimal/widgets/post_cell_widget.dart';
 import 'package:flutter/material.dart';
 
@@ -37,6 +36,12 @@ class HomePage extends StatelessWidget {
       title: 'The Most Important Color In UI Design',
       author: 'John Johny',
       date: '11 Mar 2020',
+    ),
+    Post(
+      image: 'assets/images/leader.jpg',
+      title: 'How to Lead Before You Are in Charge',
+      author: 'John Johny',
+      date: '24 Mar 2020',
     ),
   ];
 
@@ -91,10 +96,9 @@ class HomePage extends StatelessWidget {
           )
         ],
       ),
-      bottomNavigationBar: BottomBarWidget(),
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+      floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
       floatingActionButton: FloatingActionButton(
-        child: Icon(Icons.book),
+        child: Icon(Icons.add),
         backgroundColor: Color(0xFFFFD810),
         elevation: 0,
         onPressed: () => null,
@@ -142,12 +146,17 @@ class HomePage extends StatelessWidget {
                       shrinkWrap: true,
                       itemBuilder: (context, index) {
                         final post = data[index];
-                        return PostCellWidget(
-                            title: post.title,
-                            image: post.image,
-                            author: post.author,
-                            date: post.date,
-                            onClick: () => null);
+                        return Card(
+                          child: Container(
+                            padding: EdgeInsets.all(10),
+                            child: PostCellWidget(
+                                title: post.title,
+                                image: post.image,
+                                author: post.author,
+                                date: post.date,
+                                onClick: () => null),
+                          ),
+                        );
                       },
                       separatorBuilder: (context, index) => Divider(),
                     ),
