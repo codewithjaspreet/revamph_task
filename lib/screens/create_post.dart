@@ -66,7 +66,7 @@ class CreatePost extends StatelessWidget {
                         style: ButtonStyle(
                             backgroundColor:
                                 MaterialStateProperty.all(Color(0xFFFFD810))),
-                        onPressed: () {},
+                        onPressed: () => null,
                         child: Text('Create Post'))),
               )
             ],
