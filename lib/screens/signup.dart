@@ -1,9 +1,25 @@
+import 'package:blog_minimal/controller/auth_controller.dart';
+import 'package:blog_minimal/screens/home_page.dart';
 import 'package:blog_minimal/screens/signin.dart';
 import 'package:blog_minimal/widgets/custom_text_field.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:get/get_core/src/get_main.dart';
 
-class SignUp extends StatelessWidget {
-  const SignUp({Key key}) : super(key: key);
+class SignUp extends StatefulWidget {
+  @override
+  State<SignUp> createState() => _SignUpState();
+}
+
+class _SignUpState extends State<SignUp> {
+  final auth = FirebaseAuth.instance;
+
+  final TextEditingController _emailController = TextEditingController();
+
+  final TextEditingController _passwordController = TextEditingController();
+
+  final AuthController authController = Get.put(AuthController());
 
   @override
   Widget build(BuildContext context) {
@@ -40,11 +56,17 @@ class SignUp extends StatelessWidget {
                 SizedBox(height: height * 0.03),
                 Text('Email', style: TextStyle(fontWeight: FontWeight.bold)),
                 SizedBox(height: height * 0.01),
-                CustomTextField(hint: 'Enter Email'),
+                CustomTextField(
+                  hint: 'Enter Email',
+                  controller: _emailController,
+                ),
                 SizedBox(height: height * 0.03),
                 Text('Password', style: TextStyle(fontWeight: FontWeight.bold)),
                 SizedBox(height: height * 0.01),
-                CustomTextField(hint: 'Enter Password'),
+                CustomTextField(
+                  hint: 'Enter Password',
+                  controller: _passwordController,
+                ),
                 SizedBox(height: height * 0.05),
                 Center(
                   child: Container(
@@ -54,10 +76,12 @@ class SignUp extends StatelessWidget {
                           style: ButtonStyle(
                               backgroundColor:
                                   MaterialStateProperty.all(Color(0xff11586b))),
-                          onPressed: () => Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => SignIn())),
+                          onPressed: () async {
+                            authController.register(
+                                _emailController.text.trim(),
+                                _passwordController.text.trim());
+                            Get.to(HomePage());
+                          },
                           child: Text("Sign-Up"))),
                 )
               ],

@@ -1,6 +1,13 @@
 import 'package:blog_minimal/screens/create_post.dart';
 import 'package:blog_minimal/widgets/post_cell_widget.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get.dart';
+import 'package:get/get_core/src/get_main.dart';
+import 'package:google_nav_bar/google_nav_bar.dart';
+import 'package:line_icons/line_icons.dart';
+
+import 'blog_desc.dart';
 
 class Post {
   final String title;
@@ -50,6 +57,47 @@ class HomePage extends StatelessWidget {
     return Scaffold(
       backgroundColor: Colors.grey[100],
       resizeToAvoidBottomInset: false,
+      bottomNavigationBar: GNav(
+          tabMargin: EdgeInsets.symmetric(horizontal: 8.sp, vertical: 8.sp),
+          rippleColor: Colors.grey[800], // tab button ripple color when pressed
+          hoverColor: Colors.grey[700], // tab button hover color
+          haptic: true, // haptic feedback
+          tabBorderRadius: 15,
+          tabActiveBorder:
+              Border.all(color: Colors.black, width: 1), // tab button border
+          tabBorder:
+              Border.all(color: Colors.grey, width: 1), // tab button border
+          tabShadow: [
+            BoxShadow(color: Colors.grey.withOpacity(0.5), blurRadius: 8)
+          ], // tab button shadow
+          curve: Curves.bounceOut, // tab animation curves
+          duration: Duration(milliseconds: 900), // tab animation duration
+          gap: 8, // the tab button gap between icon and text
+          color: Colors.grey[800], // unselected icon color
+          activeColor: Colors.purple, // selected icon and text color
+          iconSize: 24, // tab button icon size
+          tabBackgroundColor:
+              Colors.purple.withOpacity(0.1), // selected tab background color
+          padding: EdgeInsets.symmetric(
+              horizontal: 20, vertical: 5), // navigation bar padding
+          tabs: [
+            GButton(
+              icon: LineIcons.home,
+              text: 'Home',
+            ),
+            GButton(
+              icon: LineIcons.heart,
+              text: 'Likes',
+            ),
+            GButton(
+              icon: LineIcons.search,
+              text: 'Search',
+            ),
+            GButton(
+              icon: LineIcons.user,
+              text: 'Profile',
+            )
+          ]),
       appBar: AppBar(
         centerTitle: false,
         automaticallyImplyLeading: false,
@@ -98,11 +146,12 @@ class HomePage extends StatelessWidget {
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
       floatingActionButton: FloatingActionButton(
-        child: Icon(Icons.add),
-        backgroundColor: Color(0xFFFFD810),
-        elevation: 0,
-        onPressed: () => null,
-      ),
+          child: Icon(Icons.add),
+          backgroundColor: Color(0xFFFFD810),
+          elevation: 0,
+          onPressed: () => Get.to(
+                CreatePost(),
+              )),
       body: SafeArea(
         minimum: const EdgeInsets.all(16),
         child: SingleChildScrollView(
@@ -146,15 +195,20 @@ class HomePage extends StatelessWidget {
                       shrinkWrap: true,
                       itemBuilder: (context, index) {
                         final post = data[index];
-                        return Card(
-                          child: Container(
-                            padding: EdgeInsets.all(10),
-                            child: PostCellWidget(
-                                title: post.title,
-                                image: post.image,
-                                author: post.author,
-                                date: post.date,
-                                onClick: () => null),
+                        return InkWell(
+                          onTap: () {
+                            Get.to(BlogDesc());
+                          },
+                          child: Card(
+                            child: Container(
+                              padding: EdgeInsets.all(10),
+                              child: PostCellWidget(
+                                  title: post.title,
+                                  image: post.image,
+                                  author: post.author,
+                                  date: post.date,
+                                  onClick: () => null),
+                            ),
                           ),
                         );
                       },

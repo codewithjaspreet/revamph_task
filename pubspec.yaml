@@ -25,7 +25,14 @@ dependencies:
     sdk: flutter
 
   google_fonts:
-
+  flutter_screenutil: ^5.5.4
+  get: ^4.6.5
+  firebase_auth:
+  firebase_core:
+  image_picker: ^0.8.5+3
+  google_nav_bar: ^5.0.6
+  line_icons: ^2.0.1
+  flutter_lorem: ^2.0.0
 dev_dependencies:
   flutter_test:
     sdk: flutter

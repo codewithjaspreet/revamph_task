@@ -1,8 +1,34 @@
+import 'dart:io';
+import 'dart:async';
+
 import 'package:blog_minimal/widgets/custom_text_field.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:get/get_core/src/get_main.dart';
+import 'package:image_picker/image_picker.dart';
 
-class CreatePost extends StatelessWidget {
-  const CreatePost({Key key}) : super(key: key);
+class CreatePost extends StatefulWidget {
+  const CreatePost({Key key, this.titleController, this.descController})
+      : super(key: key);
+
+  final TextEditingController titleController;
+  final TextEditingController descController;
+
+  @override
+  State<CreatePost> createState() => _CreatePostState();
+}
+
+class _CreatePostState extends State<CreatePost> {
+  File image;
+
+  Future _pickImage() async {
+    final image = await ImagePicker().pickImage(source: ImageSource.gallery);
+    if (image == null) return;
+    final imageTemp = File(image.path);
+    setState(() {
+      this.image = imageTemp;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -33,12 +59,23 @@ class CreatePost extends StatelessWidget {
                 margin: EdgeInsets.symmetric(horizontal: size.width * 0.05),
                 child: Material(
                   child: InkWell(
-                    onTap: () {},
+                    onTap: () {
+                      _pickImage();
+                    },
                     splashColor: Colors.yellow,
                     child: Ink(
                       width: size.width * 0.8,
                       height: size.height * 0.2,
-                      child: Center(child: Text('Select Image')),
+                      child: Center(
+                        child: image != null
+                            ? Image.file(
+                                image,
+                                fit: BoxFit.cover,
+                              )
+                            : Center(
+                                child: Text("Select an Image"),
+                              ),
+                      ),
                     ),
                   ),
                 ),
@@ -49,14 +86,20 @@ class CreatePost extends StatelessWidget {
                 style: TextStyle(fontWeight: FontWeight.bold),
               ),
               SizedBox(height: size.height * 0.005),
-              CustomTextField(hint: 'Enter Title'),
+              CustomTextField(
+                hint: 'Enter Title',
+                controller: widget.titleController,
+              ),
               SizedBox(height: size.height * 0.03),
               Text(
                 'Description',
                 style: TextStyle(fontWeight: FontWeight.bold),
               ),
               SizedBox(height: size.height * 0.005),
-              CustomTextField(hint: 'Enter Description'),
+              CustomTextField(
+                hint: 'Enter Description',
+                controller: widget.descController,
+              ),
               SizedBox(height: size.height * 0.02),
               Align(
                 child: Container(
@@ -66,7 +109,7 @@ class CreatePost extends StatelessWidget {
                         style: ButtonStyle(
                             backgroundColor:
                                 MaterialStateProperty.all(Color(0xFFFFD810))),
-                        onPressed: () => null,
+                        onPressed: () => Get.to(CreatePost()),
                         child: Text('Create Post'))),
               )
             ],
@@ -76,3 +119,16 @@ class CreatePost extends StatelessWidget {
     );
   }
 }
+
+// _getFromGallery() async {
+//   PickedFile pickedFile = await ImagePicker().getImage(
+//     source: ImageSource.gallery,
+//     maxWidth: 1800,
+//     maxHeight: 1800,
+//   );
+//   if (pickedFile != null) {
+//     setState(() {
+//       imageFile = File(pickedFile.path);
+//     });
+//   }
+// }
