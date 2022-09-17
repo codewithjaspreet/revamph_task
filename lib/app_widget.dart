@@ -1,4 +1,5 @@
 import 'package:blog_minimal/screens/blog_desc.dart';
+import 'package:blog_minimal/screens/create_post.dart';
 import 'package:blog_minimal/screens/signin.dart';
 import 'package:blog_minimal/screens/signup.dart';
 import 'package:flutter/material.dart';
@@ -20,7 +21,7 @@ class AppWidget extends StatelessWidget {
               fontFamily: GoogleFonts.notoSerif().fontFamily,
             ),
             debugShowCheckedModeBanner: false,
-            home: BlogDesc(),
+            home: CreatePost(),
           );
         });
   }

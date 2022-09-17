@@ -33,6 +33,9 @@ dependencies:
   google_nav_bar: ^5.0.6
   line_icons: ^2.0.1
   flutter_lorem: ^2.0.0
+  cloud_firestore: ^3.4.8
+  firebase_storage: ^10.3.8
+  path_provider:
 dev_dependencies:
   flutter_test:
     sdk: flutter

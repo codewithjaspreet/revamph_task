@@ -2,10 +2,12 @@ import 'dart:io';
 import 'dart:async';
 
 import 'package:blog_minimal/widgets/custom_text_field.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:path_provider/path_provider.dart';
 
 class CreatePost extends StatefulWidget {
   const CreatePost({Key key, this.titleController, this.descController})
@@ -25,9 +27,34 @@ class _CreatePostState extends State<CreatePost> {
     final image = await ImagePicker().pickImage(source: ImageSource.gallery);
     if (image == null) return;
     final imageTemp = File(image.path);
+    // print("ImagePath" + image.path);
+    upload(image as File);
     setState(() {
       this.image = imageTemp;
     });
+  }
+
+  upload(File image) async {
+    final storageRef = FirebaseStorage.instance.ref();
+    // final imagesRef = storageRef.child(image.path);
+
+    // Directory appDocDir = await getApplicationDocumentsDirectory();
+    // String filePath = '${appDocDir.absolute}/file-to-upload.png';
+    // print("File path : " + filePath);
+    final ref = storageRef.child("images");
+
+    print("FILE PATH : " + image.path);
+    // File file = File(filePath);
+    //
+    try {
+      await ref.putFile(image);
+    } catch (e) {
+      print("ERORRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRR");
+    }
+
+    String arr = await ref.getDownloadURL();
+    Get.snackbar('User 123', arr, snackPosition: SnackPosition.BOTTOM);
+    print(arr);
   }
 
   @override
@@ -102,16 +129,14 @@ class _CreatePostState extends State<CreatePost> {
               ),
               SizedBox(height: size.height * 0.02),
               Align(
-                child: Container(
-                    width: size.width * 0.5,
-                    height: size.height * 0.06,
-                    child: ElevatedButton(
-                        style: ButtonStyle(
-                            backgroundColor:
-                                MaterialStateProperty.all(Color(0xFFFFD810))),
-                        onPressed: () => Get.to(CreatePost()),
-                        child: Text('Create Post'))),
-              )
+                  child: Container(
+                      width: size.width * 0.5,
+                      height: size.height * 0.06,
+                      child: ElevatedButton(
+                          style: ButtonStyle(
+                              backgroundColor:
+                                  MaterialStateProperty.all(Color(0xFFFFD810))),
+                          child: Text('Create Post'))))
             ],
           ),
         ),
